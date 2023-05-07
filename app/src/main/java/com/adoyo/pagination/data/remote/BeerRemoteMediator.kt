@@ -21,7 +21,7 @@ class BeerRemoteMediator(
         state: PagingState<Int, BeerEntity>
     ): MediatorResult {
         return try {
-            val loadkey = when(loadType) {
+            val loadKey = when(loadType) {
                 LoadType.REFRESH -> 1
                 LoadType.PREPEND -> return MediatorResult.Success(
                     endOfPaginationReached = true
@@ -35,19 +35,19 @@ class BeerRemoteMediator(
                     }
                 }
             }
-            val beers = beerApi.getBeers(
-                page = loadkey,
+            val remoteBeers = beerApi.getBeers(
+                page = loadKey,
                 pageCount = state.config.pageSize
             )
             beerDb.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     beerDb.dao.deleteAll()
                 }
-                val beerEntities = beers.map { it.toBeerEntity() }
+                val beerEntities = remoteBeers.map { it.toBeerEntity() }
                 beerDb.dao.upsertAll(beerEntities)
             }
             MediatorResult.Success(
-                endOfPaginationReached = beers.isEmpty()
+                endOfPaginationReached = remoteBeers.isEmpty()
             )
         } catch (e: IOException) {
             MediatorResult.Error(e)
