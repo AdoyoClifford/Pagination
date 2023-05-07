@@ -7,7 +7,7 @@ This is a simple beer app built with jetpack compose, and  made use of the beer 
 - Get the details of a beer
 
 ## Screenshots
-<img src="
+<img src="screenshots/home.jpg"
         alt="Markdown Monster icon"
         style="float: left; margin-right: 10px;" />
 
