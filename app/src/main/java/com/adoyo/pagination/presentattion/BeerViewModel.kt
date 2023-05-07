@@ -20,3 +20,5 @@ class BeerViewModel @Inject constructor(
     }
         .cachedIn(viewModelScope)
 }
+
+//BeerViewModel
